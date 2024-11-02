@@ -1,0 +1,29 @@
+{
+  "name": "whatsappts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "index": "nodemon ./index.js",
+    "app": "nodemon ./app.js",
+    "qr": "nodemon ./qr.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/form-data": "^2.5.2",
+    "@types/node": "^22.8.4",
+    "@types/node-fetch": "^2.6.11",
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "form-data": "^4.0.1",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^2.6.11",
+    "path": "^0.12.7",
+    "qrcode": "^1.5.4",
+    "twilio": "^5.3.5",
+    "url": "^0.11.4"
+  }
+}
