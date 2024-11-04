@@ -36,37 +36,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = require("fs");
-var path = require("path");
+var QRCode = require("qrcode");
+var buffer_1 = require("buffer");
 var axios_1 = require("axios");
 var FormData = require("form-data");
+//VARIABLES----------------------------
 var botId = '491392060716085';
 var phoneNbr = '528712778678';
-var bearerToken = 'EAAcPz29isEIBOwZBDbWpfjdbPwXZBgcQyQmWUuECfhnscUTlA6foWIfTHiWMDuZA0F5y6ybf34BTiZAaZAKvP1Bc30Gobu1onPh5EydxkQawfinNWGQl4MWdd7wAR5hMN9SUeqSXLdxxa8vADs9oO82bzomOv4pQy46Uwr6YZCD1A81fB3W1EzaZA8ZD';
-var imagePath = path.resolve(__dirname, 'img/qr.png');
-var textOrderService = '998899';
-var textOperatorName = 'Carlos Serrano';
-console.log(imagePath);
-var uploadImage = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var formData, url, config, response, data, error_1;
+var bearerToken = 'EAAcPz29isEIBO3l0Ysh4rjb3AMrPz6DxxwqDAvYJO5GTumOmZBCPAPMoMZAJQCltVL2YcgUooNIFjZClUQ8Fhmfz7lMoqV2TL4DjfYikQJrfiUe3jqQsRsZAKirzbGdgbi0BMu7Dh9jYIxfIMl7eabLZCDPwSmRaq0bCkU7wD3dSt6yeSs29IWq7rlUoKR04DzJ0W8W8aBGxnNbms3Wwg3Ipw';
+var url = "https://graph.facebook.com/v15.0/".concat(botId, "/");
+var textOrderService = '101010';
+var textOperatorName = 'PEPE';
+//CODE QR GENERATOR--------------------------------
+QRCode.toDataURL(textOrderService, {
+    errorCorrectionLevel: 'Q',
+})
+    .then(function (url) {
+    //document.getElementById('serviceOrderNumQR').setAttribute('src', url);
+    //document.getElementById('serviceOrderNum').innerText =
+    'ORDEN DE SERVICIO: 1029479';
+    uploadImage(url);
+})
+    .catch(function (err) {
+    console.error(err);
+});
+//UPLOAD IMG API GRAPH META-----------------------    
+var uploadImage = function (image64) { return __awaiter(void 0, void 0, void 0, function () {
+    var buffer, formData, config, response, data, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                buffer = buffer_1.Buffer.alloc(image64.length);
+                buffer.write(image64.replace('data:image/png;base64,', ''), 'base64');
                 formData = new FormData();
-                formData.append('file', fs.createReadStream(imagePath));
+                formData.append('file', buffer, 'image.png');
                 formData.append('messaging_product', 'whatsapp');
-                url = "https://graph.facebook.com/v15.0/".concat(botId, "/media");
                 config = {
                     method: 'POST',
                     headers: {
-                        Authorization: "Bearer ".concat(bearerToken),
+                        'Authorization': 'Bearer ' + bearerToken,
+                        'Content-Type': 'multipart/form-data',
                     },
                     data: formData,
                 };
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 6, , 7]);
-                return [4 /*yield*/, (0, axios_1.default)(url, config)];
+                return [4 /*yield*/, (0, axios_1.default)("".concat(url, "media"), config)];
             case 2:
                 response = _a.sent();
                 data = response.data;
@@ -89,7 +105,7 @@ var uploadImage = function () { return __awaiter(void 0, void 0, void 0, functio
     });
 }); };
 var sendMessage = function (imageId) { return __awaiter(void 0, void 0, void 0, function () {
-    var messageData, url, config, response, result, error_2;
+    var messageData, config, response, result, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -128,7 +144,6 @@ var sendMessage = function (imageId) { return __awaiter(void 0, void 0, void 0, 
                         ],
                     },
                 };
-                url = "https://graph.facebook.com/v15.0/".concat(botId, "/messages");
                 config = {
                     method: 'POST',
                     headers: {
@@ -140,7 +155,7 @@ var sendMessage = function (imageId) { return __awaiter(void 0, void 0, void 0, 
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, axios_1.default)(url, config)];
+                return [4 /*yield*/, (0, axios_1.default)("".concat(url, "messages"), config)];
             case 2:
                 response = _a.sent();
                 result = response.data;
@@ -154,4 +169,3 @@ var sendMessage = function (imageId) { return __awaiter(void 0, void 0, void 0, 
         }
     });
 }); };
-uploadImage();

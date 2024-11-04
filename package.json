@@ -13,11 +13,12 @@
   "description": "",
   "devDependencies": {
     "@types/form-data": "^2.5.2",
-    "@types/node": "^22.8.4",
+    "@types/node": "^12.20.55",
     "@types/node-fetch": "^2.6.11",
     "nodemon": "^3.1.7"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "form-data": "^4.0.1",
     "fs": "^0.0.1-security",
     "node-fetch": "^2.6.11",
